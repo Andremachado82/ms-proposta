@@ -20,9 +20,9 @@ public class PropostaRequestDTO {
 
     private String cpf;
 
-    private Double renda;
+    private BigDecimal renda;
 
-    private Double valorSolicitado;
+    private BigDecimal valorSolicitado;
 
     private int prazoPagamento;
 }

@@ -9,11 +9,6 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class UsuarioController {
-
-
-
-
-
     @Autowired
     UsuarioService usuarioService;
     @GetMapping(name = "/usuarios")
