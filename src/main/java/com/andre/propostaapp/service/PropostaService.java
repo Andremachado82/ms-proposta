@@ -5,10 +5,12 @@ import com.andre.propostaapp.dto.PropostaResponseDTO;
 import com.andre.propostaapp.entity.Proposta;
 import com.andre.propostaapp.mapper.PropostaMapper;
 import com.andre.propostaapp.repository.PropostaRepository;
+import org.springframework.amqp.core.MessagePostProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -33,14 +35,24 @@ public class PropostaService {
 
         propostaRepository.save(proposta);
 
-        notificarRabbitMQ(proposta);
+        MessagePostProcessor mensagemPrioridade = setarPrioridade(proposta);
+
+        notificarRabbitMQ(proposta, mensagemPrioridade);
 
         return PropostaMapper.INSTANCE.converteEntityParaDto(proposta);
     }
 
-    private void notificarRabbitMQ(Proposta proposta) {
+    protected MessagePostProcessor setarPrioridade(Proposta proposta) {
+        Integer prioridade = proposta.getUsuario().getRenda().intValue() > 5000 ? 10 : 5;
+        return message -> {
+            message.getMessageProperties().setPriority(prioridade);
+            return message;
+        };
+    }
+
+    private void notificarRabbitMQ(Proposta proposta, MessagePostProcessor mensagemPrioridade) {
         try {
-            notificacaoRabbitService.notificar(proposta, exchange);
+            notificacaoRabbitService.notificar(proposta, exchange, mensagemPrioridade);
         } catch (RuntimeException ex) {
             proposta.setIntegrada(false);
             propostaRepository.save(proposta);
