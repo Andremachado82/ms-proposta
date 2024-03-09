@@ -1,7 +1,5 @@
 package com.andre.propostaapp.dto;
 
-import com.andre.propostaapp.entity.Usuario;
-import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -23,6 +21,10 @@ public class PropostaRequestDTO {
     private BigDecimal renda;
 
     private BigDecimal valorSolicitado;
+
+    private Boolean aprovada;
+
+    private Boolean integrada;
 
     private int prazoPagamento;
 }

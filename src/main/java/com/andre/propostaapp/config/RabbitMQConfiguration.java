@@ -14,10 +14,10 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class RabbitMQConfiguration {
 
-    @Value("${rabbitmq.proposta-pendente.ex}")
+    @Value("${rabbitmq.propostapendente.exchange}")
     private String exchangePropostaPendente;
 
-    @Value("${rabbitmq.proposta-concluida.ex}")
+    @Value("${rabbitmq.propostaconcluida.exchange}")
     private String exchangePropostaConcluida;
 
     @Bean
@@ -78,6 +78,7 @@ public class RabbitMQConfiguration {
                 .to(criarFanoutExchangePropostaConcluida());
     }
 
+    @Bean
     public Binding criarBindingPropostaConcluidaMsNotificacao() {
         return BindingBuilder.bind(criarFilaPropostaConcluidaMsNotificacao())
                 .to(criarFanoutExchangePropostaConcluida());

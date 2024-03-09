@@ -22,7 +22,7 @@ public class PropostaSemIntegracao {
 
     public PropostaSemIntegracao(PropostaRepository propostaRepository,
                                  NotificacaoRabbitService notificacaoRabbitService,
-                                 @Value("${rabbitmq.proposta-pendente.ex}") String exchange) {
+                                 @Value("${rabbitmq.propostapendente.exchange}") String exchange) {
         this.propostaRepository = propostaRepository;
         this.notificacaoRabbitService = notificacaoRabbitService;
         this.exchange = exchange;
