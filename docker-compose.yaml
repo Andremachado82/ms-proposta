@@ -1,0 +1,16 @@
+version: '3.5'
+services:
+  proposta-app:
+    image: proposta-app
+    environment:
+      spring.profiles.active: prod
+    ports:
+      - "8080:8080"
+  rabbit-mq:
+    image: rabbitmq:3-management
+  db:
+    image: postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1234
+      POSTGRES_DB: propostadb

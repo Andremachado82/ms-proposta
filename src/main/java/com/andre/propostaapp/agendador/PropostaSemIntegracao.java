@@ -1,6 +1,5 @@
 package com.andre.propostaapp.agendador;
 
-import com.andre.propostaapp.entity.Proposta;
 import com.andre.propostaapp.repository.PropostaRepository;
 import com.andre.propostaapp.service.NotificacaoRabbitService;
 import com.andre.propostaapp.service.PropostaService;
@@ -39,15 +38,14 @@ public class PropostaSemIntegracao {
             try {
                 MessagePostProcessor mensagemPrioridade = propostaService.setarPrioridade(proposta);
                 notificacaoRabbitService.notificar(proposta, exchange, mensagemPrioridade);
-                atualizarPropostaESalvar(proposta);
+                atualizarPropostaESalvar(proposta.getId());
             } catch (RuntimeException ex) {
                 logger.error(ex.getMessage());
             }
         });
     }
 
-    private void atualizarPropostaESalvar(Proposta proposta) {
-        proposta.setIntegrada(true);
-        propostaRepository.save(proposta);
+    private void atualizarPropostaESalvar(Long idUsuario) {
+        propostaRepository.atualizarStatusIntegrada(idUsuario, true);
     }
 }

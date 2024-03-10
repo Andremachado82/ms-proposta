@@ -42,7 +42,7 @@ public class PropostaService {
         return PropostaMapper.INSTANCE.converteEntityParaDto(proposta);
     }
 
-    protected MessagePostProcessor setarPrioridade(Proposta proposta) {
+    public MessagePostProcessor setarPrioridade(Proposta proposta) {
         Integer prioridade = proposta.getUsuario().getRenda().intValue() > 5000 ? 10 : 5;
         return message -> {
             message.getMessageProperties().setPriority(prioridade);
